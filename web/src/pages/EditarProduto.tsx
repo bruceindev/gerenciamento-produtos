@@ -26,6 +26,9 @@ export const EditarProduto = () => {
   const [erro, setErro] = useState("");
   const [carregando, setCarregando] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
+  const [modalSucessoOpen, setModalSucessoOpen] = useState(false);
+  const [modalErroOpen, setModalErroOpen] = useState(false);
+  const [mensagemErro, setMensagemErro] = useState("");
 
   const navigate = useNavigate();
 
@@ -66,11 +69,16 @@ export const EditarProduto = () => {
         return;
       }
       setModalOpen(false);
-      navigate("/");
+      setModalSucessoOpen(true);
     }).catch(() => {
       setErro("Erro ao salvar alterações.");
       setModalOpen(false);
     });
+  }
+
+  function fecharModalSucesso() {
+    setModalSucessoOpen(false);
+    navigate("/");
   }
 
   if (carregando) {
@@ -153,6 +161,21 @@ export const EditarProduto = () => {
 
             <Button onClick={confirmarSalvar}>
               Confirmar
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Modal de Sucesso */}
+      <Dialog open={modalSucessoOpen} onOpenChange={setModalSucessoOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle className="text-green-600">Produto atualizado com sucesso!</DialogTitle>
+          </DialogHeader>
+
+          <DialogFooter>
+            <Button onClick={fecharModalSucesso}>
+              OK
             </Button>
           </DialogFooter>
         </DialogContent>
